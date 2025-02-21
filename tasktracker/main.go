@@ -20,8 +20,6 @@ func rd(s string) {
 	var a []Task
 	fl := 0
 	fil, _ := os.ReadFile("tasks.json")
-	//g := json.Valid([]byte(fil))
-	//fmt.Println("validity", g)
 	json.Unmarshal(fil, &a)
 	if s == "rand" {
 		for i := range a {
@@ -44,7 +42,6 @@ func rd(s string) {
 }
 
 func add(s string) {
-	//bt, _ := json.Marshal(dat)
 	f, _ := os.ReadFile("index.log")
 	a, _ := strconv.Atoi(string(f))
 	a++
@@ -69,7 +66,6 @@ func update(c int, s string) {
 		if t[i].Id == c {
 			t[i].Desc = s
 			t[i].Updated = time.Now().Format("02/01/2006 15:04:05")
-			//break
 			fl = 1
 		}
 	}
@@ -83,8 +79,6 @@ func del(c int) {
 	var t []Task
 	var j []Task
 	fl := 0
-	//k := 0
-	//var de map[string]interface{}
 	f, _ := os.ReadFile("tasks.json")
 	json.Unmarshal(f, &t)
 	for i := range t {
@@ -199,6 +193,5 @@ func main() {
 	default:
 		fmt.Println("Invalid Syntax")
 	}
-	//add(s)
-	//rd()
+
 }
