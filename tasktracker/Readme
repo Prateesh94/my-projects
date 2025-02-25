@@ -1,1 +1,13 @@
-https://github.com/Prateesh94/my-projects.git
+Project path:- https://github.com/Prateesh94/my-projects/tree/15351ffadfbe92e450ba26a7c348bc937ef9a21b/tasktracker
+
+This is a basic CLI Task tracker tool in which you can track your added task, the command list is as follows:- \
+"add" command followed by task to add a new task \
+"update" command followed by task id and new task to update existing task \
+"delete" command followed by task id to delete the task \
+"mark-in-progress" followed by task id to update task status to in-progress \
+"mark-in-done" followed by task id to update task status to done \
+"mark-todo" followed by task id to update task status to todo \
+"list" use this command without arguments to list all the tasks \
+"list" accepts arguments like - todo, in-progress, done to fiter tasks according to their status\
+
+https://roadmap.sh/projects/task-tracker
