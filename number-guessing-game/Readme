@@ -1,0 +1,4 @@
+Number guessing game /
+This game selects a random Number between 1 and 100 /
+You have to guess the number in given number of chances, according to the mode you selected /
+The game saves your score, so you can also view your highest score in each mode /
