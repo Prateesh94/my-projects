@@ -56,7 +56,7 @@ func main() {
 
 	router := mux.NewRouter()
 	router.Use(cacher.Limitmid)
-	router.HandleFunc("/weather/{city}", getweather).Methods("GET")
+	router.HandleFunc("/add", getweather).Methods("GET")
 	log.Fatal(http.ListenAndServe(":5050", router))
 
 }
