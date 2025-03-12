@@ -8,3 +8,4 @@ https://roadmap.sh/projects/number-guessing-game
 https://roadmap.sh/projects/number-guessing-game/solutions?u=67bde53fa8c88d6e35a4b3c3
 https://roadmap.sh/projects/weather-api-wrapper-service
 https://roadmap.sh/projects/weather-api-wrapper-service/solutions?u=67bde53fa8c88d6e35a4b3c3
+https://roadmap.sh/projects/blogging-platform-api
