@@ -37,6 +37,8 @@ func init() {
 func conn() {
 	err := db.Ping()
 	fmt.Println(err, " is established")
+	qry := `create table if not exists myblogs(id int not null primary key auto_increment,title text,content text,category text,tags text,created datetime current_timestamp,updated datetime current_timestamp)`
+	db.Exec(qry)
 }
 
 func AddData(w http.ResponseWriter, r *http.Request) {

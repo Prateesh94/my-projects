@@ -20,6 +20,5 @@ func main() {
 	router.HandleFunc("/update/{id}", blogops.UpData).Methods("POST")
 	router.HandleFunc("/search/{term}", blogops.Blogsearch).Methods("POST")
 	log.Fatal(http.ListenAndServe(":8080", router))
-	//dbops.Conn()
-
+	
 }
