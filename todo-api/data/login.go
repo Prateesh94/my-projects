@@ -56,6 +56,7 @@ func AddNewUserEndpoint(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, err)
 		return
 	}
+	fmt.Fprintln(w, "Registration Scuccessful", http.StatusOK)
 }
 func LoginEndpoint(w http.ResponseWriter, r *http.Request) {
 	var usr Login
@@ -128,7 +129,7 @@ func UpdateEndpoint(w http.ResponseWriter, r *http.Request) {
 	k := mux.Vars(r)
 	id := k["id"]
 	if id == "" {
-		fmt.Fprintln(w, "Invalid Id")
+		fmt.Fprintln(w, "Invalid Id no param")
 		return
 	}
 	b := json.NewDecoder(r.Body)

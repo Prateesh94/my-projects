@@ -59,7 +59,10 @@ func addTodo(a, b, c string) (Todo, error) {
 func updateTodo(a, b, c, d string) (Todo, error) {
 	var td Todo
 	qry := `update todo set title=$1,description=$2 where id=$3 and email=$4`
-	r, _ := db.Exec(qry, a, b, c, d)
+	r, er := db.Exec(qry, a, b, c, d)
+	if er != nil {
+		return td, errors.New("forbidden")
+	}
 	ind, _ := r.RowsAffected()
 	if ind == 0 {
 		return td, errors.New("forbidden")
@@ -70,7 +73,10 @@ func updateTodo(a, b, c, d string) (Todo, error) {
 }
 
 func deleteTodo(a, b string) error {
-	r, _ := db.Exec(`delete from todo where id=$1 and email=$2`, a, b)
+	r, err := db.Exec(`delete from todo where id=$1 and email=$2`, a, b)
+	if err != nil {
+		return errors.New("forbidden")
+	}
 	row, _ := r.RowsAffected()
 	if row == 1 {
 		return nil
