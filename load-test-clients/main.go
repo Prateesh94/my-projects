@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
 	"net/url"
@@ -11,7 +12,9 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+var wg sync.WaitGroup
 var mu sync.Mutex
+var msgcount int = 0
 var message = []string{"You have to believe in yourself when no one else does.",
 	"When you have a dream, you’ve got to grab it and never let go.",
 	"The most important thing is to enjoy your life—to be happy—it's all that matters.",
@@ -23,7 +26,7 @@ var message = []string{"You have to believe in yourself when no one else does.",
 	"Success is not how high you have climbed, but how you make a positive difference to the world.",
 	"The future belongs to those who believe in the beauty of their dreams.",
 	"The best way to predict the future is to create it.",
-	"You miss 100%% of the shots you don't take.",
+	"You miss 100% of the shots you don't take.",
 	"Life is what happens when you're busy making other plans.",
 	"The purpose of our lives is to be happy.",
 	"Get busy living or get busy dying.",
@@ -38,12 +41,15 @@ func mess(conn *websocket.Conn, id int) {
 
 	randomIndex := rand.Intn(len(message))
 	randomString := message[randomIndex]
-
+	time.Sleep(5 * time.Second)
+resend:
 	err := conn.WriteMessage(websocket.TextMessage, []byte(randomString+" from Client:- "+strconv.Itoa(id)))
 
 	if err != nil {
-		log.Println("Write Error:", err)
-		return
+		time.Sleep(5 * time.Second) // Wait before retrying
+		goto resend
+	} else {
+		msgcount++
 	}
 
 	_, msg, err := conn.ReadMessage()
@@ -52,34 +58,61 @@ func mess(conn *websocket.Conn, id int) {
 		return
 	}
 	log.Printf("Client %d: Received: %s\n", id, msg)
-	time.Sleep(1 * time.Second) // Simulate some processing time
+	//time.Sleep(1 * time.Second) // Simulate some processing time
 }
 func createClient(id int) {
 	u := url.URL{Scheme: "ws", Host: "localhost:8080", Path: "/ws"}
-	log.Printf("Connecting to %s\n", u.String())
-
+	//log.Printf("Connecting to %s\n", u.String())
+redial:
 	conn, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
-	for range 20 {
-		mu.Lock()
-		go mess(conn, id)
-		mu.Unlock()
-		time.Sleep(1 * time.Second) // Simulate some delay between messages
-
-	}
+	defer conn.Close()
+	defer wg.Done()
 	if err != nil {
-		log.Fatal("Dial Error:", err)
+		red := "\033[31m"
+		reset := "\033[0m"
+		fmt.Printf("%sConnection failed,retrying in 5 sec%s", red, reset)
+		time.Sleep(5 * time.Second)
+		// Wait before retrying
+		goto redial
 	}
+	//for range 50 {
+	//time.Sleep(5 * time.Second) // Simulate some delay between messages
+	time.Sleep(2 * time.Minute)
+	for range 5 {
+		//	mu.Lock()
+		go mess(conn, id)
+		//	mu.Unlock()
+		time.Sleep(5 * time.Second)
+	}
+	//time.Sleep(3 * time.Second) // Simulate some delay between messages
+	// Simulate some delay between messages
+
+	//}
+	fmt.Printf("Client with id:-%d has sent all messages, now closing connection\n", id)
+	// if err != nil {
+	// 	log.Fatal("Dial Error:", err)
+	// }
 
 }
 
 func main() {
 	//	messages := "Hello, World!"
 	//message := "Load Test Message: " + messages
-	for i := 0; i < 1000; i++ {
-
+	i := 0
+	for i < 10000 {
+		wg.Add(1)
 		go createClient(i + 1)
+		i++
 
-		time.Sleep(1 * time.Second) // Add a delay to avoid connection issues
+		time.Sleep(10 * time.Millisecond) // Add a delay to avoid connection issues
 	}
+
+	// Wait for all clients to finish
+	fmt.Println("Waiting for all clients to finish...")
+	//	time.Sleep(30 * time.Second) // Adjust this as needed
+	wg.Wait()
+	time.Sleep(10 * time.Second)
+	fmt.Printf("Total Clients created: %d\n", i)
+	fmt.Println("Total messages sent: ", msgcount)
 	//time.Sleep(5 * time.Second) // Wait for all clients to finish
 }
