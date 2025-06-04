@@ -29,6 +29,7 @@ func handleconnection(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer ws.Close()
+
 	clients[ws] = true
 	fmt.Println("client connected")
 	for {
