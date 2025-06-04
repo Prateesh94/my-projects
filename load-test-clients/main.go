@@ -33,7 +33,22 @@ var message = []string{"You have to believe in yourself when no one else does.",
 	"You only live once, but if you do it right, once is enough.",
 	"In the end, we only regret the chances we didn't take.",
 	"Life is either a daring adventure or nothing at all.",
-	"Time and tide wait for no one"}
+	"Time and tide wait for no one",
+	"By being yourself, you put something wonderful in the world that was not there before.",
+	"Believe you can and you're halfway there.",
+	"Act as if what you do makes a difference. It does.",
+	"Success is not final, failure is not fatal: It is the courage to continue that counts.",
+	"Don't watch the clock; do what it does. Keep going.",
+	"Success usually comes to those who are too busy to be looking for it.",
+	"Opportunities don't happen, you create them.",
+	"The only limit to our realization of tomorrow will be our doubts of today.",
+	"Do what you can, with what you have, where you are.",
+	"The only way to do great work is to love what you do.",
+	"Success is walking from failure to failure with no loss of enthusiasm.",
+	"Success is not the key to happiness. Happiness is the key to success.",
+	"Success is not in what you have, but who you are.",
+	"Success is not about how much money you make, but the difference you make in people's lives.",
+	"Success is not about being the best. It's about always getting better."}
 
 func mess(conn *websocket.Conn, id int) {
 	//log.Printf("Client %d: Sending message: %s\n", id, message)
